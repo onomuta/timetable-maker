@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <link rel="stylesheet" href="https://unpkg.com/huebee@1/dist/huebee.min.css">
+  <script src="https://unpkg.com/huebee@1/dist/huebee.pkgd.min.js"></script>
+  
+  <title>Document</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Oleo+Script");	
+    @import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
+    *{
+      padding:0;
+      margin:0
+    }
+    html{
+      font-size: 10vw;
+    }
+    .loading{
+      font-family:"Oleo Script";
+      color:#444;
+      margin-top: 40vh;
+      text-align: center;
+      height:100%;
+      width:100%;
+      
+    }
+    #target{
+      width:100vw;
+      height:177.777777777vw;
+      background: white;
+      border:solid 0.5rem #f05;
+      color:#444;
+      box-sizing: border-box;
+      font-family:"Oleo Script";
+      
+      z-index:-100;
+    }
+    
+    #target.rendering{
+      width:1080px;
+      height:1920px;
+      position:fixed;
+      top:0;
+      left:0;
+    }
+    
+    .main-title{
+      font-size:1.5rem;
+      text-align:center;
+      margin-top:1rem;
+    }
+    .info{
+      font-size:.5rem;
+      text-align:center;
+      margin-bottom:0.5rem;
+    }
+    .time{
+      display:inline-block;
+      width:3rem;
+      font-size:0.6rem;
+      text-align:right;
+      line-height: 1.2;
+    }
+    .delete{
+      float:right;
+      padding-right:0.2rem;
+      cursor:pointer
+    }
+    .djname{
+      display:inline-block;
+      font-size:0.8rem;
+      width:5rem;
+      line-height: 1.2;
+    }
+    .line{
+      line-height: 1.2;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <div class="loading" v-if="loading">
+      Loading...
+    </div>
+    <!-- // main ///////////////////////////////////////////// -->
+    <div v-show="!loading" style="display:none">
+      <!-- // main ///////////////////////////////////////////// -->
+      <div style="font-size:20px">
+        <input v-model="color1" class="color-input1" />
+        <input v-model="color2" class="color-input2" />
+        <a href="#" onClick="shotit()" style="font-size:20px">export</a> 
+        <input v-model="name" placeholder="name">
+
+        <div>
+          <input type="text" placeholder="time" v-model="newItemData[0]">
+          <input type="text" placeholder="name" v-model="newItemData[1]">
+        </div>
+        <button v-on:click="addItem(newItemData)">action</button>
+      </div>
+      <!-- // render ///////////////////////////////////////////// -->
+      <!-- ↓この中が書き出される -->
+      <div id="target" v-bind:style="{ color: color1,'border-color': color1, background:color2}" v-bind:class="{ rendering: isRendering }">
+        <div class="main-title">{{mainTitle}}</div>
+        <div class="info">{{info}}</div>
+        
+        <div class="line" v-for="item in items">
+          <div class="time">{{ item.item0 }}</div>
+          <div class="djname">{{ item.item1 }}</div>
+        </div>
+      </div>
+    </div>
+    <!-- ///////////////////////////////////////////// -->
+  </div>
+
+<script src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+<script>
+  var app = new Vue({
+    el: "#app",
+    data: {
+      loading:true,
+      name:"aaa",
+      mainTitle:"Hoge party!!",
+      info:"12/23 23:00- MOGRA@AKIHABARA",
+      color1:"#dddddd",
+      color2:"#ffffff",
+      items: [
+        { id: 1, item0:"23:00", item1:"aiueo" },
+        { id: 2, item0:"24:00", item1:"DJ hogehoge" },
+        { id: 3, item0:"1:00",  item1:"onom" },
+        { id: 4, item0:"2:00",  item1:"あいうえお" },
+        { id: 5, item0:"3:00",  item1:"fugafuga" },
+        { id: 6, item0:"4:00",  item1:"fugafuga" },
+        // { id: 7, item0:"5:00",  item1:"fugafuga" },
+        // { id: 8, item0:"6:00",  item1:"fugafuga" },
+        // { id: 9, item0:"7:00",  item1:"fugafuga" },
+        // { id: 10, item0:"8:00",  item1:"fugafuga" },
+      ],
+      newItemTitle: '',
+      newItemData:[],
+      isRendering:false
+    },
+    methods: {
+      sayHello(){
+        this.msg = "Hello!"
+      },
+      addItem: function(data){
+        this.items.push({
+          title: data[0],
+          isChecked: false,
+          item0:data[0],
+          item1:data[1]
+        });
+        this.newItemTitle = '';
+      },
+    },
+    updated:function () {
+    },
+    mounted:function (){
+      //表示後にやりたいことはここに書ける
+      console.log("mounted");
+      this.loading = false;
+    }
+  })
+
+
+
+var img;
+var shotit = function() {
+  app.isRendering = true;
+    
+  
+  var html = document.getElementById("html");
+  html.style.fontSize = "108px";
+  
+  
+  console.log(document.body);
+  var target = document.querySelector("#target");
+  html2canvas(target, {
+  onrendered: function(canvas) {
+    document.body.appendChild(canvas);
+    leCanvas = document.getElementsByTagName("canvas")[0];
+    img  = leCanvas.toDataURL("image/png");
+    // document.write('<img src="'+img+'"/>');
+    saveCanvas();
+    app.isRendering = false;
+    html.style.fontSize = "10vw";
+  },
+  width: 1080,
+  height: 1920
+});
+}
+
+
+
+  
+
+// canvas上のイメージを保存
+function saveCanvas(saveType){
+
+  
+  var imageType = "image/png";
+  var fileName = "sample.png";
+
+  var canvas = document.getElementById("canvas");
+  // base64エンコードされたデータを取得 「data:image/png;base64,iVBORw0k～」
+  var base64 = img;
+  // base64データをblobに変換
+  var blob = Base64toBlob(base64);
+  // blobデータをa要素を使ってダウンロード
+  saveBlob(blob, fileName);
+}
+ 
+// Base64データをBlobデータに変換
+function Base64toBlob(base64){
+  // カンマで分割して以下のようにデータを分ける
+  // tmp[0] : データ形式（data:image/png;base64）
+  // tmp[1] : base64データ（iVBORw0k～）
+  var tmp = base64.split(',');
+  // base64データの文字列をデコード
+  var data = atob(tmp[1]);
+  // tmp[0]の文字列（data:image/png;base64）からコンテンツタイプ（image/png）部分を取得
+  var mime = tmp[0].split(':')[1].split(';')[0];
+    //  1文字ごとにUTF-16コードを表す 0から65535 の整数を取得
+  var buf = new Uint8Array(data.length);
+  for (var i = 0; i < data.length; i++) {
+    buf[i] = data.charCodeAt(i);
+  }
+  // blobデータを作成
+  var blob = new Blob([buf], { type: mime });
+  return blob;
+}
+ 
+// 画像のダウンロード
+function saveBlob(blob, fileName){
+  var url = (window.URL || window.webkitURL);
+  // ダウンロード用のURL作成
+  var dataUrl = url.createObjectURL(blob);
+  // イベント作成
+  var event = document.createEvent("MouseEvents");
+  event.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+  // a要素を作成
+  var a = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+  // ダウンロード用のURLセット
+  a.href = dataUrl;
+  // ファイル名セット
+  a.download = fileName;
+  // イベントの発火
+  a.dispatchEvent(event);
+}
+  
+  
+var hueb1 = new Huebee( '.color-input1', {
+  notation: 'hex',
+  saturations: 2,
+});
+hueb1.on( 'change', function( color) {
+  app.color1 = color;
+})
+
+var hueb2 = new Huebee( '.color-input2', {
+  notation: 'hex',
+  saturations: 2,
+});
+  
+hueb2.on( 'change', function( color) {
+  app.color2 = color;
+})
+  
+  
+</script>
+</body>
+</html>
