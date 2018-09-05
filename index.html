@@ -28,6 +28,20 @@
       width:100%;
       
     }
+
+    .edit-item{
+      display:table;
+      width:100%;
+      table-layout: fixed;
+    }
+    .edit-item>div{
+      display:table-cell;
+    }
+    .edit-label{
+      width:120px;
+      text-align: right;
+      padding-right:8px;
+    }
     #target{
       width:100vw;
       height:177.777777777vw;
@@ -79,6 +93,13 @@
     .line{
       line-height: 1.2;
     }
+
+    input{
+      width:100%;
+      height:30px;
+      margin: 4px 0px;
+      font-size:16px
+    }
   </style>
 </head>
 <body>
@@ -89,18 +110,50 @@
     </div>
     <!-- // main ///////////////////////////////////////////// -->
     <div v-show="!loading" style="display:none">
-      <!-- // main ///////////////////////////////////////////// -->
-      <div style="font-size:20px">
-        <input v-model="color1" class="color-input1" />
-        <input v-model="color2" class="color-input2" />
-        <a href="#" onClick="shotit()" style="font-size:20px">export</a> 
-        <input v-model="name" placeholder="name">
+      <!-- // editor ///////////////////////////////////////////// -->
+      <div class="editor"style="font-size:20px; padding:8px">
+        <div href="#" onClick="shotit()" style="font-size:20px;border:solid 1px #ddd;border-radius: 4px;text-align: center; cursor:pointer; margin-bottom:8px">export</div> 
+        <div class="edit-item">
+          <div class="edit-label">Color1</div>
+          <div>
+            <input v-model="color1" class="color-input1">
+          </div>
+        </div>
+        <div class="edit-item">
+          <div class="edit-label">Color2</div>
+          <div>
+            <input v-model="color2" class="color-input2">
+          </div>
+        </div>
+        <div class="edit-item">
+          <div class="edit-label">Title</div>
+          <div>
+            <input v-model="mainTitle" placeholder="party title">
+          </div>
+        </div>
+        <div class="edit-item">
+          <div class="edit-label">Info</div>
+          <div>
+            <input v-model="info" placeholder="party info">
+          </div>
+        </div>
+        
 
         <div>
           <input type="text" placeholder="time" v-model="newItemData[0]">
           <input type="text" placeholder="name" v-model="newItemData[1]">
         </div>
-        <button v-on:click="addItem(newItemData)">action</button>
+        <button v-on:click="addItem(newItemData)">Add</button>
+
+<!-- 
+        <table>
+          <div class="line" v-for="item in items">
+            <div class="time">{{ item.item0 }}</div>
+            <div class="djname">{{ item.item1 }}</div>
+          </div>
+        </table> -->
+
+        
       </div>
       <!-- // render ///////////////////////////////////////////// -->
       <!-- ↓この中が書き出される -->
