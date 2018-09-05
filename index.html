@@ -112,7 +112,7 @@
     <div v-show="!loading" style="display:none">
       <!-- // editor ///////////////////////////////////////////// -->
       <div class="editor"style="font-size:20px; padding:8px">
-        <div href="#" onClick="shotit()" style="font-size:20px;border:solid 1px #ddd;border-radius: 4px;text-align: center; cursor:pointer; margin-bottom:8px">export</div> 
+        <div style="text-align:center; font-size:40px; font-family:'Oleo Script'">T T Maker</div>
         <div class="edit-item">
           <div class="edit-label">Color1</div>
           <div>
@@ -139,20 +139,30 @@
         </div>
         
 
-        <div>
-          <input type="text" placeholder="time" v-model="newItemData[0]">
-          <input type="text" placeholder="name" v-model="newItemData[1]">
-        </div>
-        <button v-on:click="addItem(newItemData)">Add</button>
+        <table style="width:100%">
+          <td style="width:100px; padding-right: 8px;">
+            <input type="text" placeholder="00:00" v-model="newItemData[0]" style="text-align: right;">
+          </td>
+          <td>
+            <input type="text" placeholder="Artist name" v-model="newItemData[1]">
+          </td>
+          <td>
+            <div v-on:click="addItem(newItemData)" style="font-size: 20px;text-align: center">Add</div>
+          </td>
+        </table>
 
-<!-- 
-        <table>
-          <div class="line" v-for="item in items">
-            <div class="time">{{ item.item0 }}</div>
-            <div class="djname">{{ item.item1 }}</div>
-          </div>
-        </table> -->
 
+        <table style="width:100%">
+          <tr class="line" v-for="item in items">
+            <td class="pre-time" style="width:100px; text-align: right; padding-right:8px;">{{ item.item0 }}</td>
+            <td class="pre-djname">{{ item.item1 }}</td>
+            <td>
+              <div v-on:click="delItem(newItemData)" style="font-family:'Oleo Script'">X</div>
+            </td>
+          </tr>
+        </table>
+
+        <div href="#" onClick="shotit()" style="font-size:40px;border:solid 1px #ddd;border-radius: 4px;text-align: center; cursor:pointer; margin-bottom:8px;font-family:'Oleo Script'">export</div> 
         
       </div>
       <!-- // render ///////////////////////////////////////////// -->
