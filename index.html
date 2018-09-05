@@ -14,7 +14,8 @@
     @import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);
     *{
       padding:0;
-      margin:0
+      margin:0;
+      box-sizing: border-box;
     }
     html{
       font-size: 10vw;
@@ -38,7 +39,7 @@
       display:table-cell;
     }
     .edit-label{
-      width:120px;
+      width:80px;
       text-align: right;
       padding-right:8px;
     }
@@ -48,9 +49,7 @@
       background: white;
       border:solid 0.5rem #f05;
       color:#444;
-      box-sizing: border-box;
       font-family:"Oleo Script";
-      
       z-index:-100;
     }
     
@@ -68,7 +67,7 @@
       margin-top:1rem;
     }
     .info{
-      font-size:.5rem;
+      font-size:.4rem;
       text-align:center;
       margin-bottom:0.5rem;
     }
@@ -96,10 +95,28 @@
 
     input{
       width:100%;
-      height:30px;
+      height:32px;
+      padding-left: 4px;
       margin: 4px 0px;
-      font-size:16px
+      font-size:16px;
+      border-radius: 8px;
+      background:#ffe
     }
+
+    .btn{
+      font-size: 20px;
+      text-align: center;
+      cursor:pointer;
+      border:solid 2px #ddd;
+      border-style: outset;
+      border-radius: 8px;
+      height:32px;
+      padding:2px;
+    }
+    .btn:hover{
+      background:#eee
+    }
+
   </style>
 </head>
 <body>
@@ -111,58 +128,60 @@
     <!-- // main ///////////////////////////////////////////// -->
     <div v-show="!loading" style="display:none">
       <!-- // editor ///////////////////////////////////////////// -->
-      <div class="editor"style="font-size:20px; padding:8px">
-        <div style="text-align:center; font-size:40px; font-family:'Oleo Script'">T T Maker</div>
-        <div class="edit-item">
-          <div class="edit-label">Color1</div>
-          <div>
-            <input v-model="color1" class="color-input1">
-          </div>
-        </div>
-        <div class="edit-item">
-          <div class="edit-label">Color2</div>
-          <div>
-            <input v-model="color2" class="color-input2">
-          </div>
-        </div>
-        <div class="edit-item">
-          <div class="edit-label">Title</div>
-          <div>
-            <input v-model="mainTitle" placeholder="party title">
-          </div>
-        </div>
-        <div class="edit-item">
-          <div class="edit-label">Info</div>
-          <div>
-            <input v-model="info" placeholder="party info">
-          </div>
-        </div>
-        
-
+      <div class="editor"style="font-size:20px; padding:8px 16px">
+        <div style="padding: 10px;text-align:center; font-size:40px; font-family:'Oleo Script'">T T Maker</div>
+        <div style="text-align: center;background: #eee;">Edit</div>
         <table style="width:100%">
-          <td style="width:100px; padding-right: 8px;">
-            <input type="text" placeholder="00:00" v-model="newItemData[0]" style="text-align: right;">
-          </td>
-          <td>
-            <input type="text" placeholder="Artist name" v-model="newItemData[1]">
-          </td>
-          <td>
-            <div v-on:click="addItem(newItemData)" style="font-size: 20px;text-align: center">Add</div>
-          </td>
-        </table>
-
-
-        <table style="width:100%">
-          <tr class="line" v-for="item in items">
-            <td class="pre-time" style="width:100px; text-align: right; padding-right:8px;">{{ item.item0 }}</td>
-            <td class="pre-djname">{{ item.item1 }}</td>
+          <tr>
+            <td class="edit-label">Color1</td>
             <td>
-              <div v-on:click="delItem(newItemData)" style="font-family:'Oleo Script'">X</div>
+              <input v-model="color1" class="color-input1">
+            </td>
+          </tr>
+          <tr>
+            <td class="edit-label">Color2</td>
+            <td>
+              <input v-model="color2" class="color-input2">
+            </td>
+          </tr>
+          <tr>
+            <td class="edit-label">Title</td>
+            <td>
+              <input v-model="mainTitle" placeholder="party title">
+            </td>
+          </tr>
+          <tr>
+            <td class="edit-label">Info</td>
+            <td>
+              <input v-model="info" placeholder="party info">
             </td>
           </tr>
         </table>
 
-        <div href="#" onClick="shotit()" style="font-size:40px;border:solid 1px #ddd;border-radius: 4px;text-align: center; cursor:pointer; margin-bottom:8px;font-family:'Oleo Script'">export</div> 
+
+        <div style="text-align: center;background: #eee;">Artist list..</div>
+        <table style="width:100%">
+          <tr class="line" v-for="(item, index) in items">
+            <td class="pre-time" style="width:80px; text-align: right; padding-right:8px;">{{ item.item0 }}</td>
+            <td class="pre-djname" style="padding-left:8px">{{ item.item1 }}</td>
+            <td style="width: 100px">
+              <div v-on:click="delItem(index)" class="btn">Del</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="width:80px; padding-right: 8px;">
+              <input type="text" placeholder="00:00" v-model="newItemData[0]" style="text-align: right;">
+            </td>
+            <td>
+              <input type="text" placeholder="Artist name" v-model="newItemData[1]">
+            </td>
+            <td style="width: 100px">
+              <div v-on:click="addItem(newItemData)" class="btn">Add</div>
+            </td>
+          </tr>
+        </table>
+
+        <div href="#" onClick="shotit()" class="btn" style="font-size:40px; margin:8px 0;font-family:'Oleo Script';    height: 70px;">export</div> 
         
       </div>
       <!-- // render ///////////////////////////////////////////// -->
@@ -190,19 +209,12 @@
       name:"aaa",
       mainTitle:"Hoge party!!",
       info:"12/23 23:00- MOGRA@AKIHABARA",
-      color1:"#dddddd",
-      color2:"#ffffff",
+      color1:"#000000",
+      color2:"#ff0099",
       items: [
         { id: 1, item0:"23:00", item1:"aiueo" },
         { id: 2, item0:"24:00", item1:"DJ hogehoge" },
         { id: 3, item0:"1:00",  item1:"onom" },
-        { id: 4, item0:"2:00",  item1:"あいうえお" },
-        { id: 5, item0:"3:00",  item1:"fugafuga" },
-        { id: 6, item0:"4:00",  item1:"fugafuga" },
-        // { id: 7, item0:"5:00",  item1:"fugafuga" },
-        // { id: 8, item0:"6:00",  item1:"fugafuga" },
-        // { id: 9, item0:"7:00",  item1:"fugafuga" },
-        // { id: 10, item0:"8:00",  item1:"fugafuga" },
       ],
       newItemTitle: '',
       newItemData:[],
@@ -220,6 +232,10 @@
           item1:data[1]
         });
         this.newItemTitle = '';
+      },
+      delItem: function(index){
+        console.log(index);
+        this.items.splice(index, 1);
       },
     },
     updated:function () {
@@ -320,7 +336,7 @@ function saveBlob(blob, fileName){
   
 var hueb1 = new Huebee( '.color-input1', {
   notation: 'hex',
-  saturations: 2,
+  saturations: 3,
 });
 hueb1.on( 'change', function( color) {
   app.color1 = color;
@@ -328,7 +344,7 @@ hueb1.on( 'change', function( color) {
 
 var hueb2 = new Huebee( '.color-input2', {
   notation: 'hex',
-  saturations: 2,
+  saturations: 3,
 });
   
 hueb2.on( 'change', function( color) {
