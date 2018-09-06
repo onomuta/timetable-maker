@@ -26,13 +26,30 @@
     }
     .loading{
       font-family:"Oleo Script";
-      color:#444;
-      margin-top: 40vh;
+      color:white;
+      background:#999;
+      border:solid 0.5rem #fff;
       text-align: center;
       height:100%;
       width:100%;
-      
+      position:absolute
     }
+
+    .loading{
+    animation-name: anime1;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    }
+
+    @keyframes anime1 {
+    from {padding-top: 37vh;}
+    to {padding-top: 45vh;}
+    }
+
+
+
     .editor{
       font-family: 'Avenir','Mplus 1p';
     }
@@ -46,7 +63,7 @@
       display:table-cell;
     }
     .edit-label{
-      width:80px;
+      width:60px;
       text-align: right;
       padding-right:8px;
     }
@@ -54,7 +71,7 @@
       width:100vw;
       height:177.777777777vw;
       background: white;
-      border:solid 0.5rem #f05;
+      border:solid 0.5rem #fff;
       color:#444;
       font-family:'Oleo Script','Mplus 1p';
       z-index:-100;
@@ -81,16 +98,16 @@
     .time{
       display:inline-block;
       width:3rem;
-      font-size:0.6rem;
+      font-size:0.8rem;
       text-align:right;
-      line-height: 1.8;
+      line-height: 1.6;
       vertical-align: top;
     }
     .djname{
       display:inline-block;
-      font-size:0.8rem;
+      font-size:1rem;
       width:5rem;
-      line-height: 1.2;
+      line-height: 1.1;
       vertical-align: top;
     }
     .delete{
@@ -135,31 +152,46 @@
       height:32px;
       padding:2px;
     }
-    .btn:hover{
+    /* .btn:hover{
       background:#eee
-    }
+    } */
 
     .btn.del-btn{
       background:#666;
       color: white;
     }
-    .btn.del-btn:hover{
+    /* .btn.del-btn:hover{
       background:#888;
-    }
+    } */
 
     .btn.add-btn{
       background:#3887f1;
       color: white;
     }
 
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
+    }
+
+    canvas{
+      display:none
+    }
   </style>
 </head>
 <body>
 
   <div id="app">
+      <transition name="fade">
+
     <div class="loading" v-if="loading">
       Loading...
     </div>
+  </transition>
+    <transition name="fade">
     <!-- // main ///////////////////////////////////////////// -->
     <div v-show="!loading" style="display:none">
       <!-- // editor ///////////////////////////////////////////// -->
@@ -271,7 +303,7 @@
           </tr>
         </table>
         
-        <div href="#" onClick="shotit()" class="btn" style="font-size:40px; margin:8px 0;font-family:'Oleo Script';    height: 70px;">export!</div> 
+        <div href="#" onClick="exportImage()" class="btn" style="font-size:40px; margin:8px 0;font-family:'Oleo Script';    height: 70px;">export!</div> 
         
       </div>
       <!-- // render ///////////////////////////////////////////// -->
@@ -287,6 +319,7 @@
       </div>
     </div>
     <!-- ///////////////////////////////////////////// -->
+  </transition>
   </div>
 
 <script src="https://github.com/niklasvh/html2canvas/releases/download/0.4.1/html2canvas.js"></script>
@@ -297,14 +330,19 @@
     data: {
       loading:true,
       name:"aaa",
-      mainTitle:"Hoge party!!",
-      info:"12/23 23:00- MOGRA@AKIHABARA",
+      mainTitle:"Nice party!!",
+      info:"12/32 23:00- MOGRA@AKIHABARA",
       color1:"#000000",
       color2:"#ff0099",
       items: [
-        { id: 1, timeH:23, timeM:00, item0:"23:00", item1:"aiueo" },
-        { id: 2, timeH:23, timeM:00, item0:"24:00", item1:"DJ hogehoge" },
-        { id: 3, timeH:23, timeM:00, item0:"1:00",  item1:"onom" },
+        {item0:"23:00", item1:"Hoge" },
+        {item0:"23:40", item1:"DJ fugafuga" },
+        {item0:"0:20",  item1:"PIYO" },
+        {item0:"1:00",  item1:"foo" },
+        {item0:"2:00",  item1:"foobar" },
+        {item0:"2:40",  item1:"FUGA" },
+        {item0:"3:40",  item1:"HOGE" },
+        {item0:"4:20",  item1:"B2B" },
       ],
       newItemTitle: '',
       newItemData:[],
@@ -332,14 +370,12 @@
           this.items.splice(index-1, 0, this.items[index]); // 二番目に挿入
           this.items.splice(index+1, 1);
         }
-
       },
     },
     updated:function () {
     },
     mounted:function (){
       //表示後にやりたいことはここに書ける
-      console.log("mounted");
       this.loading = false;
     }
   })
@@ -347,14 +383,10 @@
 
 
 var img;
-var shotit = function() {
+var exportImage = function() {
   app.isRendering = true;
-    
-  
   var html = document.getElementById("html");
   html.style.fontSize = "108px";
-  
-  
   console.log(document.body);
   var target = document.querySelector("#target");
   html2canvas(target, {
@@ -433,7 +465,7 @@ function saveBlob(blob, fileName){
   
 var hueb1 = new Huebee( '.color-input1', {
   notation: 'hex',
-  saturations: 3,
+  saturations: 1,
 });
 hueb1.on( 'change', function( color) {
   app.color1 = color;
@@ -441,7 +473,7 @@ hueb1.on( 'change', function( color) {
 
 var hueb2 = new Huebee( '.color-input2', {
   notation: 'hex',
-  saturations: 3,
+  saturations: 1,
 });
   
 hueb2.on( 'change', function( color) {
