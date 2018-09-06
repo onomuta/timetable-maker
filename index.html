@@ -111,7 +111,10 @@
     }
     select{
       height:32px;
-      width: 36px;
+      width: 120px;
+      background:#ffe;
+      border-radius: 8px;
+      border: inset 2px;
     }
 
     .btn{
@@ -179,12 +182,14 @@
               <div v-on:click="delItem(index)" class="btn">Del</div>
             </td>
           </tr>
+        </table>
 
 
+        <table style="width:100%">
           <tr style="border-top:solid 2px #ccc">
-            <td style="width:100px; padding-right: 8px;">
-              <!-- <input type="text" placeholder="00:00" v-model="newItemData[0]" style="text-align: right;"> -->
-              <select v-model="newTimeH">
+            <td style="padding-right: 8px;">
+              <div>
+                <select v-model="newTimeH">
                   <option>0</option>
                   <option>1</option>
                   <option>2</option>
@@ -225,16 +230,19 @@
                   <option>50</option>
                   <option>55</option>
                 </select>
+              </div>
             </td>
+            <td rowspan="2" style="width: 100px">
+              <div v-on:click="addItem(newItemData)" class="btn" style="height:64px; padding:16px 0">Add</div>
+            </td>
+
+          </tr>
+          <tr style="border-top:solid 2px #ccc">
             <td>
               <input type="text" placeholder="Artist name" v-model="newItemData[1]">
             </td>
-            <td style="width: 100px">
-              <div v-on:click="addItem(newItemData)" class="btn">Add</div>
-            </td>
           </tr>
         </table>
-
         
         <div href="#" onClick="shotit()" class="btn" style="font-size:40px; margin:8px 0;font-family:'Oleo Script';    height: 70px;">export</div> 
         
