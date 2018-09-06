@@ -197,6 +197,9 @@
         <div style="text-align: center;background: #eee;">Artist list..</div>
         <table style="width:100%">
           <tr class="line" v-for="(item, index) in items">
+            <td style="width:32px">
+              <div v-on:click="upItem(index)" class="btn" style="width:32px">▲</div>
+            </td>
             <td class="pre-time" style="width:80px; text-align: right; padding-right:8px;">{{ item.item0 }}</td>
             <td class="pre-djname" style="padding-left:8px">{{ item.item1 }}</td>
             <td style="width: 100px">
@@ -318,13 +321,18 @@
           item0: this.newTimeH + ":" + this.newTimeM,
           item1:data[1],
         });
-        
         this.newItemData[1] = '';
         this.newItemTitle = '';
       },
       delItem: function(index){
-        console.log(index);
         this.items.splice(index, 1);
+      },
+      upItem: function(index){
+        if(index>0){
+          this.items.splice(index-1, 0, this.items[index]); // 二番目に挿入
+          this.items.splice(index+1, 1);
+        }
+
       },
     },
     updated:function () {
