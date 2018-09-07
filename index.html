@@ -110,7 +110,7 @@
       display:inline-block;
       font-size:1rem;
       width:5rem;
-      line-height: 1.1;
+      line-height: 1.2;
       vertical-align: top;
     }
     .delete{
@@ -285,6 +285,7 @@
                   <option>21</option>
                   <option>22</option>
                   <option>23</option>
+                  <option></option>
                 </select>
               </div>
             </td>
@@ -303,6 +304,7 @@
                   <option>45</option>
                   <option>50</option>
                   <option>55</option>
+                  <option></option>
                 </select>
               </div>
             </td>
@@ -328,7 +330,7 @@
         <div class="info">{{info1}}</div>
         <div class="info">{{info2}}</div>
         <div class="info">{{info3}}</div>
-        
+        <div style="height:0.5rem"></div>
         <div class="line" v-for="item in items">
           <div class="time">{{ item.item0 }}</div>
           <div class="djname">{{ item.item1 }}</div>
@@ -374,8 +376,15 @@
         this.msg = "Hello!"
       },
       addItem: function(data){
+
+        var dispTime;
+        if (!this.newTimeH && !this.newTimeM) {
+          dispTime = "";
+        }else{
+          dispTime = this.newTimeH + ":" + this.newTimeM;
+        }
         this.items.push({
-          item0: this.newTimeH + ":" + this.newTimeM,
+          item0: dispTime,
           item1:data[1],
         });
         this.newItemData[1] = '';
