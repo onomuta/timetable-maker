@@ -2,4 +2,4 @@
 https://onomuta.github.io/timetable-maker/
 
 
-This is a tool to easily create a timetable
+This is a tool to easily create a timetable image
