@@ -9,10 +9,13 @@
   <script src="https://unpkg.com/huebee@1/dist/huebee.pkgd.min.js"></script>
   
   <title>Document</title>
+  <style></style>
   <style>
     @import url("https://fonts.googleapis.com/css?family=Oleo+Script");	
     /* @import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css); */
-    @import url(https://fonts.googleapis.com/earlyaccess/mplus1p.css);
+    /* @import url(https://fonts.googleapis.com/earlyaccess/mplus1p.css); */
+    /* @import url(https://fonts.googleapis.com/earlyaccess/hannari.css); */
+
     *{
       padding:0;
       margin:0;
@@ -73,7 +76,7 @@
       background: white;
       border:solid 0.5rem #fff;
       color:#444;
-      font-family:'Oleo Script','Mplus 1p';
+      font-family:'Oleo Script',serif;
       z-index:-100;
     }
     
@@ -93,7 +96,7 @@
     .info{
       font-size:.4rem;
       text-align:center;
-      margin-bottom:0.5rem;
+      margin-bottom:0.2rem;
     }
     .time{
       display:inline-block;
@@ -218,9 +221,21 @@
             </td>
           </tr>
           <tr>
-            <td class="edit-label">Info</td>
+            <td class="edit-label">Info1</td>
             <td>
-              <input v-model="info" placeholder="party info">
+              <input v-model="info1" placeholder="party info">
+            </td>
+          </tr>
+          <tr>
+            <td class="edit-label">Info2</td>
+            <td>
+              <input v-model="info2" placeholder="party info">
+            </td>
+          </tr>
+          <tr>
+            <td class="edit-label">Info3</td>
+            <td>
+              <input v-model="info3" placeholder="party info">
             </td>
           </tr>
         </table>
@@ -310,7 +325,9 @@
       <!-- ↓この中が書き出される -->
       <div id="target" v-bind:style="{ color: color1,'border-color': color1, background:color2}" v-bind:class="{ rendering: isRendering }">
         <div class="main-title">{{mainTitle}}</div>
-        <div class="info">{{info}}</div>
+        <div class="info">{{info1}}</div>
+        <div class="info">{{info2}}</div>
+        <div class="info">{{info3}}</div>
         
         <div class="line" v-for="item in items">
           <div class="time">{{ item.item0 }}</div>
@@ -331,9 +348,11 @@
       loading:true,
       name:"aaa",
       mainTitle:"Nice party!!",
-      info:"12/32 23:00- MOGRA@AKIHABARA",
+      info1:"HOGE MUSIC PARTY!!",
+      info2:"12/32 23:00- MOGRA@AKIHABARA",
+      info3:"",
       color1:"#000000",
-      color2:"#ff0099",
+      color2:"#ffffff",
       items: [
         {item0:"23:00", item1:"Hoge" },
         {item0:"23:40", item1:"DJ fugafuga" },
